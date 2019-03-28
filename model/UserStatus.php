@@ -10,5 +10,13 @@
                 $this->name = $data["name"];
             }
         }
+        
+        public function getStatusID(){
+            return $this->statusID;
+        }
+        
+        public function getStatusName(){
+            return $this->name;
+        }
     }
 ?>

@@ -10,5 +10,14 @@
                 return NULL;
             }
         }
+        
+        public static function isAdmin(){
+            if(!array_key_exists("connected", $_SESSION))return false;
+            return $_SESSION["connected"];
+        }
+        
+        public function hashPassword($password){
+            return password_hash($password, PASSWORD_BCRYPT);
+        }
     }
 ?>

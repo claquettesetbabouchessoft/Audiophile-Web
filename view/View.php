@@ -1,7 +1,5 @@
 <?php
-    class View{
-        
-        private static $VIEW_PATHS = array(
+     $VIEW_PATHS = array(
             "errors/403" => "notifications/errors/403.php",
             "errors/404" => "notifications/errors/404.php",
             "admin/STATS" => "forms/admin/stats.php",
@@ -25,11 +23,9 @@
             "auth/DELETED" => "notifications/auth/deleted.php",
             "auth/UPDATE" => "forms/auth/update.php",
             "auth/UPDATED" => "notifications/auth/updated.php",
-            "auth/VIEW" => "forms/auth/view.php"
+            "auth/VIEW" => "forms/auth/view.php",
+            "home" => "Home.php"
         );
-        
-        public static function display($view){
-            require File::build_path(array("view", View::$VIEW_PATHS[$view]));
-        }
-    }
+     
+    require File::build_path(array("view", $VIEW_PATHS[$view]));
 ?>

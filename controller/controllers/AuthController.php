@@ -1,4 +1,5 @@
 <?php
+    require_once File::build_path(array("controller", "query", "DBUser.php"));
     /*
        * CONNECT : connect an user
        * CONNECTED : user is now connected
@@ -18,17 +19,36 @@
     $action = strtoupper(Util::getFromPOSTOrGET("action"));
     //if action not found
     if(!in_array($action, $VALID_ACTIONS)){
-        View::display("errors/404");
+        $view = "errors/404";
+        require File::build_path(array("view", "View.php"));
     }else{
-        View::display($topic."/".$action);
         switch ($action){
-            case "CONNECT":
+            case "CONNECT":         
                 break;
             case "CONNECTED":
+                $mail = Util::getFromPOSTOrGET("mail");
+                $password = Util::getFromPOSTOrGET("password");
+                $user = DBUser::getByMail($mail);
+                if($user != NULL){
+                    if(password_verify($password, $user->getPasswordHash())){
+                        //set connected
+                        $_SESSION["connected"] = True;
+                        $_SESSION["login"] = $user->getNickname();
+                        $success =  True;
+                    }else{
+                        $success = False;
+                    }
+                }else{
+                    $success = False;
+                }
                 break;
             case "DISCONNECT":
                 break;
             case "DISCONNECTED":
+                //remove all stored valu for this user
+                session_unset();
+                //destroy the session
+                session_destroy();
                 break;
             case "ADD":
                 break;
@@ -45,5 +65,7 @@
             case "VIEW":
                 break;
         }
+        $view = $topic."/".$action;
+        require File::build_path(array("view", "View.php"));
     }
 ?>

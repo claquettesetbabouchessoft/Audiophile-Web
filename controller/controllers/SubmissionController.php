@@ -17,9 +17,11 @@
     $action = strtoupper(Util::getFromPOSTOrGET("action"));
     //if action not found
     if(!in_array($action, $VALID_ACTIONS)){
-        View::display("errors/404");
+    	$view = "errors/404";
+    	require File::build_path(array("view", "View.php"));
     }else{
-        View::display($topic."/".$action);
+    	$view = $topic."/".$action;
+    	require File::build_path(array("view", "View.php"));
         switch ($action){
             case "PUT":
                 break;

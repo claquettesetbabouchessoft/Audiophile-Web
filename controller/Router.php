@@ -12,25 +12,27 @@
     require_once File::build_path(array("model", "User.php"));
     require_once File::build_path(array("model", "UserStatus.php"));
     
-    //import view
-    require_once File::build_path(array("view", "View.php"));
-    
     //init connection with database
     Auth::init();
+    
+    //start session
+    session_start();
     
     //authorised connections
     $VALID_TOPICS = ["submission","auth","admin","error"];
     
     $topic = Util::getFromPOSTOrGET("topic");
     if(!in_array($topic, $VALID_TOPICS)){
-        View::display("errors/404");
+    	$view = "home";
+    	require File::build_path(array("view", "View.php"));
     }else{
         $cname = ucfirst($topic)."Controller";
         $path = File::build_path(array("controller", "controllers", $cname.".php"));
         if(file_exists($path)){
             require $path;
         }else{
-            View::display("errors/404");
+        	$view = "errors/404";
+        	require File::build_path(array("view", "View.php"));
         }
     }
     
