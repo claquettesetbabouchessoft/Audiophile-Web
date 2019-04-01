@@ -11,9 +11,14 @@
             }
         }
         
-        public static function isAdmin(){
+        public static function isConnected(){
             if(!array_key_exists("connected", $_SESSION))return false;
             return $_SESSION["connected"];
+        }
+        
+        public static function isAdmin(){
+        	if(!array_key_exists("status", $_SESSION))return false;
+        	return $_SESSION["status"] == 1;
         }
         
         public function hashPassword($password){
